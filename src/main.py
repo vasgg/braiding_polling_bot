@@ -15,7 +15,6 @@ from bot.middlewares.auth_middleware import AuthMiddleware
 from bot.middlewares.session_middleware import DBSessionMiddleware
 from bot.middlewares.updates_dumper_middleware import UpdatesDumperMiddleware
 from config import get_logging_config, settings
-from database.tables_helper import create_or_drop_db
 from database.database_connector import get_db
 
 
@@ -30,7 +29,6 @@ async def main():
     storage = MemoryStorage()
 
     db = get_db()
-
     dispatcher = Dispatcher(storage=storage)
     db_session_middleware = DBSessionMiddleware(db)
     dispatcher.message.middleware(db_session_middleware)
