@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from database.database_connector import get_db
-from database.models import Base
+from database_connector import get_db
+from models import Base
 
 
 async def create_or_drop_db(engine: AsyncEngine, create: bool = True):
@@ -10,7 +10,6 @@ async def create_or_drop_db(engine: AsyncEngine, create: bool = True):
             await conn.run_sync(Base.metadata.create_all, checkfirst=True)
         else:
             await conn.run_sync(Base.metadata.drop_all)
-
 
 if __name__ == '__main__':
     import asyncio
