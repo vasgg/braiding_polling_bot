@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import BigInteger, ForeignKey, String, UniqueConstraint, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from enums import Nominations
+from bot.enums import Nomination
 
 
 class Base(DeclarativeBase):
@@ -37,13 +37,13 @@ class User(Base):
         return self.__str__()
 
 
-class Nominant(Base):
-    __tablename__ = 'nominants'
+class Nominee(Base):
+    __tablename__ = 'nominees'
 
     name: Mapped[str]
-    last_name: Mapped[str]
+    last_name: Mapped[str | None]
     link: Mapped[str]
-    nomination: Mapped[Nominations]
+    nomination: Mapped[Nomination]
 
 
 class Vote(Base):
@@ -51,6 +51,6 @@ class Vote(Base):
     __table_args__ = (UniqueConstraint('user_id', 'nomination'),)
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'))
-    nomination: Mapped[Nominations]
-    voted_for: Mapped[int] = mapped_column(ForeignKey('nominants.id', ondelete='CASCADE'))
+    nomination: Mapped[Nomination]
+    vote_for: Mapped[int] = mapped_column(ForeignKey('nominees.id', ondelete='CASCADE'))
 
