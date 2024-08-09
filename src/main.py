@@ -12,7 +12,7 @@ from bot.handlers.errors_handler import router as errors_router
 from bot.internal.commands import set_bot_commands
 from bot.internal.notify_admin import on_shutdown_notify, on_startup_notify
 from bot.middlewares.auth_middleware import AuthMiddleware
-from bot.middlewares.session_middleware import DBSessionMiddleware
+from bot.middlewares.session_middleware import DBSessionMiddleware, GSpreadSessionMiddleware
 from bot.middlewares.updates_dumper_middleware import UpdatesDumperMiddleware
 from config import get_logging_config, settings
 from database.database_connector import get_db
@@ -33,6 +33,8 @@ async def main():
     db_session_middleware = DBSessionMiddleware(db)
     dispatcher.message.middleware(db_session_middleware)
     dispatcher.callback_query.middleware(db_session_middleware)
+    dispatcher.message.middleware(GSpreadSessionMiddleware())
+    dispatcher.callback_query.middleware(GSpreadSessionMiddleware())
     dispatcher.message.middleware(AuthMiddleware())
     dispatcher.callback_query.middleware(AuthMiddleware())
     dispatcher.update.outer_middleware(UpdatesDumperMiddleware())
