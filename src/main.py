@@ -28,7 +28,7 @@ async def main():
     logging.info("bot started")
     storage = MemoryStorage()
 
-    db = get_db()
+    db = get_db(settings)
     dispatcher = Dispatcher(storage=storage)
     db_session_middleware = DBSessionMiddleware(db)
     dispatcher.message.middleware(db_session_middleware)

@@ -29,8 +29,7 @@ def nominations_kb(user: User) -> InlineKeyboardMarkup:
         if not vote_attributes[idx - 1]:
             builder.row(
                 InlineKeyboardButton(
-                    text=number_to_nomination(idx),
-                    callback_data=NominationCallback(nomination=nomination).pack()
+                    text=number_to_nomination(idx), callback_data=NominationCallback(nomination=nomination).pack()
                 )
             )
     return builder.as_markup()
@@ -42,7 +41,7 @@ def nominee_kb(nominees: list[Nominee]) -> InlineKeyboardMarkup:
         builder.row(
             InlineKeyboardButton(
                 text=nominee.name + ' ' + nominee.last_name if nominee.last_name else nominee.name,
-                callback_data=NomineeCallback(nomination=nominee.nomination, nominee_id=nominee.id).pack()
+                callback_data=NomineeCallback(nomination=nominee.nomination, nominee_id=nominee.id).pack(),
             )
         )
     return builder.as_markup()
@@ -50,16 +49,21 @@ def nominee_kb(nominees: list[Nominee]) -> InlineKeyboardMarkup:
 
 def vote_confirmation_kb(nomination: Nomination, nominee_id: int) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    builder.row(InlineKeyboardButton(text='Да',
-                                     callback_data=VoteConfirmationCallback(
-                                         action=Action.VOTE,
-                                         nomination=nomination,
-                                         nominee_id=nominee_id
-                                     ).pack()))
-    builder.row(InlineKeyboardButton(text='Назад',
-                                     callback_data=VoteConfirmationCallback(
-                                         action=Action.BACK,
-                                         nomination=nomination,
-
-                                     ).pack()))
+    builder.row(
+        InlineKeyboardButton(
+            text='Да',
+            callback_data=VoteConfirmationCallback(
+                action=Action.VOTE, nomination=nomination, nominee_id=nominee_id
+            ).pack(),
+        )
+    )
+    builder.row(
+        InlineKeyboardButton(
+            text='Назад',
+            callback_data=VoteConfirmationCallback(
+                action=Action.BACK,
+                nomination=nomination,
+            ).pack(),
+        )
+    )
     return builder.as_markup()
