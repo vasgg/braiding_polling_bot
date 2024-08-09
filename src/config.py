@@ -5,7 +5,7 @@ import sys
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from enums import Stage
+from bot.enums import Stage
 
 
 class Settings(BaseSettings):
@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     NGROK_URL: SecretStr
     NGROK_USER: SecretStr
     NGROK_PASS: SecretStr
+    TABLE_NAME: str
     ADMIN: int
     DB_NAME: str
     STAGE: Stage
