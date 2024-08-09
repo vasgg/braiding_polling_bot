@@ -53,4 +53,3 @@ class Vote(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'))
     nomination: Mapped[Nomination]
     vote_for: Mapped[int] = mapped_column(ForeignKey('nominees.id', ondelete='CASCADE'))
-
