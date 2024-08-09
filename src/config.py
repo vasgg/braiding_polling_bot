@@ -1,4 +1,3 @@
-
 from logging.handlers import RotatingFileHandler
 import sys
 
@@ -10,18 +9,25 @@ from bot.enums import Stage
 
 class Settings(BaseSettings):
     BOT_TOKEN: SecretStr
-    NGROK_URL: SecretStr
-    NGROK_USER: SecretStr
-    NGROK_PASS: SecretStr
-    TABLE_NAME: str
     ADMIN: int
-    DB_NAME: str
+    TABLE_NAME: str
     STAGE: Stage
-    db_echo: bool = False
+    POSTGRES_HOST: str
+    POSTGRES_PORT: int
+    POSTGRES_PASSWORD: SecretStr
+    POSTGRES_USER: str
+    POSTGRES_DB: str
+    echo: bool = False
+    pool_size: int = 50
+    max_overflow: int = 10
 
     @property
-    def aiosqlite_db_url(self) -> str:
-        return f'sqlite+aiosqlite:///{self.DB_NAME}.db'
+    def get_db_connection_string(self):
+        return SecretStr(
+            f"postgresql+asyncpg://"
+            f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD.get_secret_value()}@"
+            f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        )
 
     model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', case_sensitive=False, extra='allow')
 
