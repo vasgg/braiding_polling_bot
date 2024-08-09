@@ -15,8 +15,15 @@ async def add_user_to_db(user, db_session) -> User:
     return new_user
 
 
-async def get_user_from_db_by_tg_id(telegram_id: int, db_session: AsyncSession) -> User | None:
+async def get_user_by_tg_id(telegram_id: int, db_session: AsyncSession) -> User | None:
     query = select(User).filter(User.telegram_id == telegram_id)
+    result: Result = await db_session.execute(query)
+    user = result.scalar()
+    return user
+
+
+async def get_user_by_id(user_id: int, db_session: AsyncSession) -> User | None:
+    query = select(User).filter(User.id == user_id)
     result: Result = await db_session.execute(query)
     user = result.scalar()
     return user
