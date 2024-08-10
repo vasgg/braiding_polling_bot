@@ -1,6 +1,6 @@
 from aiogram.filters.callback_data import CallbackData
 
-from bot.enums import Action, Nomination
+from bot.internal.enums import Action, Nomination
 
 
 class NominationCallback(CallbackData, prefix='nomination'):

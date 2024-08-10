@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 
-from bot.enums import Action, Nomination
+from bot.internal.enums import Action, Nomination
 from bot.internal.helpers import number_to_nomination
 from bot.keyboards.callbacks import NominationCallback, NomineeCallback, VoteConfirmationCallback
 from database.models import Nominee, User
@@ -21,8 +21,8 @@ def nominations_kb(user: User) -> InlineKeyboardMarkup:
         user.voted_4,
         user.voted_5,
         user.voted_6,
-        # user.voted_7,
-        # user.voted_8
+        user.voted_7,
+        user.voted_8
     ]
     builder = InlineKeyboardBuilder()
     for idx, nomination in enumerate(Nomination, start=1):
