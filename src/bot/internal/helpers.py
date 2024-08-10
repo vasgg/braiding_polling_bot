@@ -1,5 +1,5 @@
-from bot.enums import Nomination
-from bot.lexicon import texts
+from bot.internal.enums import Nomination
+from bot.internal.lexicon import texts
 from database.models import Nominee, User
 
 
@@ -12,8 +12,8 @@ def voting_available(user: User) -> bool:
             user.voted_4,
             user.voted_5,
             user.voted_6,
-            # user.voted_7,
-            # user.voted_8,
+            user.voted_7,
+            user.voted_8,
         )
     )
 
@@ -26,8 +26,8 @@ def number_to_nomination(number: int) -> str:
         4: 'Лучшая косметика для брейдинга',
         5: 'Королева брейдинга',
         6: 'Король брейдинга',
-        # 7: 'Песня года',
-        # 8: 'Видео года',
+        7: 'Песня года',
+        8: 'Видео года',
     }
     return dictionary[number]
 

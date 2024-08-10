@@ -1,11 +1,13 @@
+import asyncio
 import os
 
 from aiogram import Bot
+from asyncio import CancelledError, Queue, Task
 
 from config import settings
 
 
-async def on_startup_notify(bot: Bot):
+async def on_startup(bot: Bot):
     folder = os.path.basename(os.getcwd())
     await bot.send_message(
         settings.ADMIN,
@@ -14,7 +16,10 @@ async def on_startup_notify(bot: Bot):
     )
 
 
-async def on_shutdown_notify(bot: Bot):
+async def on_shutdown(bot: Bot, queue: Queue, task: Task, event: asyncio.Event):
+    await queue.join()
+    event.set()
+    await task
     folder = os.path.basename(os.getcwd())
     await bot.send_message(
         settings.ADMIN,
