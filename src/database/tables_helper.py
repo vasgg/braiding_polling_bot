@@ -70,7 +70,6 @@ async def populate_db(db_session: AsyncSession):
         ('Юлия', 'Батонова', 'https://www.instagram.com/reel/C7irnA3NK3e/?igsh=djQzMXAzN3M5dDUy', 8),
         ('Мария', 'Астапушкина', 'https://www.instagram.com/reel/CrvnbILN4-o/?igsh=Zml3bXFjMnJ4dDY0', 8),
         ('Янесса ', None, 'https://www.instagram.com/reel/C2w9PwTMkB_/?igsh=MWNvNjdiMnM3YTIzbQ==', 8),
-        ('Лилия', None, 'https://www.instagram.com/reel/Cw25loCsKXM/?igsh=NXJyeXF2NjVndnh2', 8),
         ('Таня', 'Топалова', 'https://www.instagram.com/reel/C8L8l8zs46B/?igsh=MXI2bmphdmFmbWU5OA==', 8),
     ]:
         nominee = Nominee(name=name, last_name=lastname, link=link, nomination=nomination)
