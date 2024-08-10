@@ -84,9 +84,10 @@ async def handle_vote_confirmation(
     db_session: AsyncSession,
 ) -> None:
     nominees: list[Nominee] = await get_nominees(callback_data.nomination, db_session)
-    nominee = await get_nominee(callback_data.nominee_id, db_session)
-    username = '@' + user.username if user.username else ''
-    nominee_name = nominee.name + ' ' + nominee.last_name if nominee.last_name else nominee.name
+    if callback_data.nominee_id:
+        nominee = await get_nominee(callback_data.nominee_id, db_session)
+        username = '@' + user.username if user.username else ''
+        nominee_name = nominee.name + ' ' + nominee.last_name if nominee.last_name else nominee.name
     if callback_data.action == Action.VOTE:
         vote_field_name = f"voted_{callback_data.nomination.value}"
         if hasattr(user, vote_field_name):
