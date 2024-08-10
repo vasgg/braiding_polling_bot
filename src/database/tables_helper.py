@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession
 
 from config import settings
 from database.database_connector import get_db
-from models import Base, Nominee
+from database.models import Base, Nominee
 
 
 async def create_or_drop_db(engine: AsyncEngine, create: bool = True):
