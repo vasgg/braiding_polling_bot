@@ -79,12 +79,11 @@ async def populate_db(db_session: AsyncSession):
 
 
 async def main():
-    # db = get_db(settings)
-    # await create_or_drop_db(db.engine, False)
-    # await create_or_drop_db(db.engine)
-    # async with db.session_factory.begin() as session:
-    #     await populate_db(session)
-    ...
+    db = get_db(settings)
+    await create_or_drop_db(db.engine, False)
+    await create_or_drop_db(db.engine)
+    async with db.session_factory.begin() as session:
+        await populate_db(session)
 
 
 if __name__ == '__main__':
