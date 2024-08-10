@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import BigInteger, ForeignKey, String, UniqueConstraint, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from bot.enums import Nomination
+from bot.internal.enums import Nomination
 
 
 class Base(DeclarativeBase):
