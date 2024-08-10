@@ -86,5 +86,9 @@ async def main():
         await populate_db(session)
 
 
-if __name__ == '__main__':
+def run_main():
     asyncio.run(main())
+
+
+if __name__ == '__main__':
+    run_main()

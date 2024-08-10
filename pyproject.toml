@@ -28,7 +28,7 @@ requires-python = ">=3.11"
 
 [project.scripts]
 bot-run = "main:run_main"
-db-populate = "database.tables_helper:main"
+db-populate = "database.tables_helper:run_main"
 
 [tool.black]
 line-length = 120
