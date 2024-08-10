@@ -104,7 +104,7 @@ async def handle_vote_confirmation(
             user_fullname=user.fullname,
             user_id=user.id,
             user_username=username,
-            user_phone_number=user.phone_number,
+            user_phone_number=user.phone_number or 'empty',
             nominee_name=nominee_name,
             user_vote_for=nominee.id,
             date=vote.created_at.strftime("%d.%m.%Y %H:%M:%S"),
