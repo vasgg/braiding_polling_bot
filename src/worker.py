@@ -21,6 +21,8 @@ async def worker(
         try:
             try:
                 task: TaskModel = await asyncio.wait_for(queue.get(), timeout=1.0)
+                queue_len = queue.qsize()
+                logger.info(f"Task {task.task_id}: {task.task_type} ejected from queue. Queue length: {queue_len}")
             except TimeoutError:
                 continue
             async with db.session_factory.begin() as db_session:
