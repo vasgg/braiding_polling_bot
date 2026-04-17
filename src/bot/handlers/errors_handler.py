@@ -10,19 +10,24 @@ from config import settings
 if typing.TYPE_CHECKING:
     from aiogram.types.error_event import ErrorEvent
 
+logger = logging.getLogger(__name__)
 router = Router()
 
 
 @router.errors()
-async def error_handler(error_event: "ErrorEvent", bot: aiogram.Bot):
+async def error_handler(error_event: 'ErrorEvent', bot: aiogram.Bot) -> None:
     exc_info = error_event.exception
-    exc_traceback = ''.join(traceback.format_exception(None, exc_info, exc_info.__traceback__))
+    exc_traceback = ''.join(traceback.format_exception(exc_info))
     tb = exc_traceback[-3500:]
 
     error_message = (
-        f"🚨 <b>An error occurred</b> 🚨\n\n"
-        f"<b>Type:</b> {type(exc_info).__name__}\n<b>Message:</b> {exc_info}\n\n<b>Traceback:</b>\n<code>{tb}</code>"
+        f'🚨 <b>An error occurred</b> 🚨\n\n'
+        f'<b>Type:</b> {type(exc_info).__name__}\n<b>Message:</b> {exc_info}\n\n'
+        f'<b>Traceback:</b>\n<code>{tb}</code>'
     )
-    logging.exception("Exception:", exc_info=exc_info)
+    logger.exception('Exception:', exc_info=exc_info)
 
-    await bot.send_message(settings.ADMIN, error_message)
+    try:
+        await bot.send_message(settings.primary_admin, error_message)
+    except Exception:
+        logger.exception('Failed to send error notification to admin')

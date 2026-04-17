@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
-from sqlalchemy import BigInteger, ForeignKey, String, UniqueConstraint, func
+from sqlalchemy import BigInteger, ForeignKey, Index, String, UniqueConstraint, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from bot.internal.enums import Nomination
@@ -8,10 +8,9 @@ from bot.internal.enums import Nomination
 
 class Base(DeclarativeBase):
     __abstract__ = True
-    __table_args__ = {'extend_existing': True}
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(UTC), server_default=func.now())
 
 
 class User(Base):
@@ -29,11 +28,16 @@ class User(Base):
     voted_6: Mapped[bool] = mapped_column(default=False)
     voted_7: Mapped[bool] = mapped_column(default=False)
     voted_8: Mapped[bool] = mapped_column(default=False)
+    voted_9: Mapped[bool] = mapped_column(default=False)
+    voted_10: Mapped[bool] = mapped_column(default=False)
+    voted_11: Mapped[bool] = mapped_column(default=False)
+    voted_12: Mapped[bool] = mapped_column(default=False)
+    voted_13: Mapped[bool] = mapped_column(default=False)
 
-    def __str__(self):
-        return f"User(id={self.id}, fullname={self.fullname}, telegram_id={self.telegram_id})"
+    def __str__(self) -> str:
+        return f'User(id={self.id}, fullname={self.fullname}, telegram_id={self.telegram_id})'
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.__str__()
 
 
@@ -43,13 +47,18 @@ class Nominee(Base):
     name: Mapped[str]
     last_name: Mapped[str | None]
     link: Mapped[str]
-    nomination: Mapped[Nomination]
+    nomination: Mapped[Nomination] = mapped_column(index=True)
 
 
 class Vote(Base):
     __tablename__ = 'votes'
-    __table_args__ = (UniqueConstraint('user_id', 'nomination'),)
+    __table_args__ = (
+        UniqueConstraint('user_id', 'nomination', name='uq_votes_user_nomination'),
+        Index('ix_votes_nomination', 'nomination'),
+    )
 
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'))
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), index=True)
     nomination: Mapped[Nomination]
-    vote_for: Mapped[int] = mapped_column(ForeignKey('nominees.id', ondelete='CASCADE'))
+    vote_for_1: Mapped[int] = mapped_column(ForeignKey('nominees.id', ondelete='CASCADE'))
+    vote_for_2: Mapped[int] = mapped_column(ForeignKey('nominees.id', ondelete='CASCADE'))
+    vote_for_3: Mapped[int] = mapped_column(ForeignKey('nominees.id', ondelete='CASCADE'))

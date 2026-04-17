@@ -10,7 +10,7 @@ async def get_nominees(nomination_id: int, db_session: AsyncSession) -> list[Nom
     return list(result.scalars().all())
 
 
-async def get_nominee(nominee_id: int, db_session: AsyncSession) -> Nominee:
+async def get_nominee(nominee_id: int, db_session: AsyncSession) -> Nominee | None:
     query = select(Nominee).filter(Nominee.id == nominee_id)
     result = await db_session.execute(query)
     return result.scalar()

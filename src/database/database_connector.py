@@ -34,7 +34,7 @@ class DatabaseConnector:
 
 def get_db(settings) -> DatabaseConnector:
     return DatabaseConnector(
-        url=settings.get_db_connection_string.get_secret_value(),
+        url=settings.DATABASE_DSN,
         echo=settings.echo,
         pool_size=settings.pool_size,
         max_overflow=settings.max_overflow,

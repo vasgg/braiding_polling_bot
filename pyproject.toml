@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "braiding_award_polling_bot"
 description = ""
-version = "0.0.1"
+version = "0.1.0"
 authors = [
     { name = "vasgg", email = "vas.g@me.com" },
 ]
@@ -16,33 +16,49 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    'aiogram>=3.10.0',
-    'pydantic-settings>=2.4.0',
-    'sqlalchemy>=2.0.32',
-    'gspread>=6.1.2',
-    'oauth2client>=4.1.3',
-    'asyncpg>=0.29.0',
-    'black>=24.8.0',
+    'aiogram>=3.20.0',
+    'pydantic-settings>=2.7.0',
+    'sqlalchemy>=2.0.36',
+    'asyncpg>=0.30.0',
+    'redis>=5.2.0',
+    'openpyxl>=3.1.5',
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.14"
 
 [project.scripts]
 bot-run = "main:run_main"
 db-populate = "database.tables_helper:run_main"
 
-[tool.black]
-line-length = 120
-target-version = ['py311']
-skip-string-normalization = true
-
 [tool.ruff]
 line-length = 120
-target-version = "py311"
-select = ["ALL"]
-ignore = ["Q", "T", "D", "ANN", "UP", "RUF", "G004", "RET504", "ISC002", "INP001", "EM101", "TRY003", "PTH", "TD", "FIX002"]
+target-version = "py314"
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "Q", "T", "D", "ANN", "UP", "RUF", "G004", "RET504", "ISC002", "INP001", "EM101", "TRY003", "PTH", "TD", "FIX002",
+    "FBT",      # boolean arguments — common in internal code
+    "BLE001",   # blind exception — acceptable in broadcast/export error handling
+    "ERA001",   # commented-out code — TODO comments
+    "PLR2004",  # magic values — small numeric constants are clear in context
+    "TC",       # type-checking blocks — aiogram uses get_type_hints() at runtime
+    "N806",     # uppercase variable — SQL aliases like N1, N2 are conventional
+    "N802",     # function name case — override of stdlib logging.Formatter.formatTime
+    "ASYNC240", # trio/anyio path — we use asyncio, not trio
+    "COM812",   # trailing comma — handled by ruff format
+    "LOG015",   # root logger — acceptable for startup logging
+]
+
+[tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ty]
+python-version = "3.14"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

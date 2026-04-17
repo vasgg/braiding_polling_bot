@@ -1,18 +1,20 @@
 from aiogram.filters.callback_data import CallbackData
 
-from bot.internal.enums import Action, Nomination
+from bot.internal.enums import Nomination
 
 
 class NominationCallback(CallbackData, prefix='nomination'):
     nomination: Nomination
 
 
-class NomineeCallback(CallbackData, prefix='nominee'):
+class ToggleNomineeCallback(CallbackData, prefix='toggle'):
     nomination: Nomination
     nominee_id: int
 
 
-class VoteConfirmationCallback(CallbackData, prefix='vote'):
-    action: Action
+class SubmitVoteCallback(CallbackData, prefix='submit'):
     nomination: Nomination
-    nominee_id: int | None = None
+
+
+class BackToNominationsCallback(CallbackData, prefix='back'):
+    pass
